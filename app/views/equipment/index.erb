@@ -21,4 +21,6 @@
 		</form> <hr>
 	<% end %>
 <% end %>
-<a href="/equipment/new"><button>Add new equipment</button></a>
+<% if current_user.is_admin %>
+	<a href="/equipment/new"><button>Add new equipment</button></a>
+<% end %>
