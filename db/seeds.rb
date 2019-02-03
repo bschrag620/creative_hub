@@ -30,7 +30,9 @@ q.save
 t.questions << q
 
 c = Certificate.create(:name => "3d Printer")
+Test.first.certificates << c
 c = Certificate.create(:name => "CNC")
+Test.last.certificates << c
 
 admin = User.create(:first_name => "ad", :last_name => "min", :email => "brad.schrag@gmail.com", :phone_number => "479-799-2325", :password_digest => BCrypt::Password.create('admin'), :is_admin => true)
 non_admin = User.create(:first_name => "Mark", :last_name => "Not important", :email => "markschmo@nowhere.com", :phone_number => "555-4123", :is_volunteer => true, :password_digest => BCrypt::Password.create('mark'))
