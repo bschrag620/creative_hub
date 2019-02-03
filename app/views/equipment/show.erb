@@ -6,7 +6,7 @@ Currently in use:  <%=@equip.in_use%>
 Required certification:
 	<ul>
 		<% if @equip.certificate %>
-			<li><a href="/certificates/<%=equipment.certificate.id%>"><%=@equip.certificate.name%></a></li>
+			<li><a href="/certificates/<%=@equip.certificate.id%>"><%=@equip.certificate.name%></a></li>
 		<% else %>
 			<% if current_user.is_admin %>
 				No certificate specified. Choose <a href="/equipment/<%=@equip.id%>/edit">edit</a> to fix.
