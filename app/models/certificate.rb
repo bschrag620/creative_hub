@@ -3,5 +3,5 @@ class Certificate < ActiveRecord::Base
 	has_many :certificate_users
 	has_many :tests, through: :certificate_tests
 	has_many :certificate_tests
-	belongs_to :equipment
+	has_many :equipment
 end
