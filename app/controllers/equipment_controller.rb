@@ -52,7 +52,7 @@ class EquipmentController < ApplicationController
     	
     	equip = Equipment.find(params[:id])
     	equip.update(:name => params[:name], :certificate => Certificate.find(params[:certificate_id]))
-    	binding.pry
+    
 		redirect "/equipment/#{equip.id}"
     end
 
