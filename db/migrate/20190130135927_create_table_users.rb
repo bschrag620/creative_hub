@@ -4,6 +4,7 @@ class CreateTableUsers < ActiveRecord::Migration
   		t.string :first_name
   		t.string :last_name
   		t.string :email, uniqueness: true
+      t.string :username, uniqueness: true
   		t.string :phone_number
   		t.text :bio
   		t.boolean :is_admin, :default => false

@@ -29,7 +29,11 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/login' do
-    user = User.find_by(:email => params[:email])
+    user = User.find_by(:email => params[:signin])
+
+    if not user
+      user = User.find_by(:username => params[:signin])
+    end
 
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id

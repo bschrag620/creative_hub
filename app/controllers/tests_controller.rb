@@ -27,7 +27,7 @@ class TestsController < ApplicationController
 			end
 			if requisites
 				current_user.certificates << cert
-				flash[:message] = "#{flash[:message]} <br> #{cert.name} has been awarded to you!"
+				flash[:message] = "#{flash[:message]} <br> #{cert.name} certificate has been awarded to you!"
 			end
 		end
 

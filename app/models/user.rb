@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
 	has_many :tests, through: :test_users
 	has_many :test_users
 	has_secure_password
-	validates_presence_of :first_name, :last_name, :email, :phone_number, :password_digest
+	validates_presence_of :first_name, :last_name, :email, :phone_number, :password_digest, :username
 
 	def set_defaults
     	self.is_admin = false if self.bool_field.nil?
