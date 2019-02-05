@@ -55,6 +55,12 @@ class ApplicationController < Sinatra::Base
       flash[:message] = "Duplicate email. Please try again."
       redirect '/signup'
     end
+
+    if User.find_by(:username => params[:username])
+      flash[:message] = "Duplicae username. Please try again."
+      redirect '/signup'
+    end
+
     user = User.new(params)
     if user.save
       session[:user_id] = user.id
@@ -76,7 +82,23 @@ class ApplicationController < Sinatra::Base
 
   patch '/profile' do
     @user = current_user
-    @user.update(params[:user])
+    if params[:user][:email] != @user.email
+      if User.find_by(:email => params[:user][:email])
+        flash[:message] = "Email is already taken."
+        redirect '/profile'
+      end
+    elsif params[:user][:username] != @user.username
+      if User.find_by(:username => params[:user][:username])
+        flash[:message] = "Username is already taken."
+        redirect '/profile'
+      end
+    end
+
+    if @user.update(params[:user])
+      flash[:message] = "Profile updated."
+    else
+      flash[:message] = "Something went wrong. Profile not updated."
+    end
     redirect '/profile'
   end
 

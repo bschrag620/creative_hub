@@ -34,8 +34,8 @@ Test.first.certificates << c
 c = Certificate.create(:name => "CNC")
 Test.last.certificates << c
 
-admin = User.create(:first_name => "ad", :last_name => "min", :username => "admin", :email => "admin@mysite.com", :phone_number => "479-799-2325", :password_digest => BCrypt::Password.create('admin'), :is_admin => true)
-non_admin = User.create(:first_name => "Mark", :last_name => "Smith", :username => "mark", :email => "mark@mysite.com", :phone_number => "555-4123", :is_volunteer => true, :password_digest => BCrypt::Password.create('mark'))
+admin = User.create(:first_name => "ad", :last_name => "min", :username => "admin", :email => "admin@mysite.com", :phone_number => "479-555-1234", :password_digest => BCrypt::Password.create('admin'), :is_admin => true)
+non_admin = User.create(:first_name => "Mark", :last_name => "Smith", :username => "mark", :email => "mark@mysite.com", :phone_number => "479-555-4321", :is_volunteer => true, :password_digest => BCrypt::Password.create('mark'))
 
 Equipment.create(:name => "CNC", :certificate => Certificate.last)
 
