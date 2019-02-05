@@ -8,5 +8,6 @@
 			<input type="checkbox" value="<%=t.id%>" name="certificate[test_ids][]" <%="checked" if @cert.tests.include?(t) %>><%=t.name%> <br>
 		</ul>
 	<% end %>
+	<a href="/tests/new"><button type="button">Create new test</button></a><hr>
 	<input type="submit" id="edit_button" value="Edit certificate">
 </form>

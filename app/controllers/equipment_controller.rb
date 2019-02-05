@@ -16,7 +16,8 @@ class EquipmentController < ApplicationController
  		end
 
  		equip.certificate = Certificate.find_or_create_by(:name => params[:certificate_name])
-
+        equip.save
+        
  		redirect '/equipment'
  	end
 
@@ -24,6 +25,7 @@ class EquipmentController < ApplicationController
  		if !current_user.is_admin
 			redirect '/'
 	    end
+
 	    @certifs = Certificate.all
 
 	    erb :'/equipment/new'
