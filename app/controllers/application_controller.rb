@@ -73,8 +73,10 @@ class ApplicationController < Sinatra::Base
 
   get '/profile' do
     if !logged_in?
+      flash[:message] = "Requires login."
       redirect '/login'
-    end
+    end 
+
     @user = current_user
 
     erb :'profile'

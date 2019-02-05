@@ -1,12 +1,26 @@
 class TestsController < ApplicationController
 
 	get '/tests' do
+		if !logged_in?
+			flash[:message] = "Requires login."
+			redirect '/login'
+		end
 		@tests = Test.all
 
 		erb :'/tests/index'
 	end
 
 	get '/tests/new' do
+		if !logged_in?
+            flash[:message] = "Requires login and administrator privelages."
+            redirect '/login'
+        end
+
+        if !current_user.is_admin
+            flash[:message] = "Requires administrator privelages."
+            redirect '/login'
+        end
+
 		@certificates = Certificate.all
 
 		erb :'/tests/new'
@@ -39,6 +53,11 @@ class TestsController < ApplicationController
 	end
 
 	get '/tests/:id/take' do
+		if !logged_in?
+            flash[:message] = "Requires login and administrator privelages."
+            redirect '/login'
+        end
+
 		@test = Test.find(params[:id])
 
 		erb :'/tests/take'
@@ -83,6 +102,11 @@ class TestsController < ApplicationController
 	end
 
 	get '/tests/:id' do
+		if !logged_in?
+            flash[:message] = "Requires login and administrator privelages."
+            redirect '/login'
+        end
+        
 		@test = Test.find(params[:id])
 
 		erb :'/tests/show'
@@ -157,7 +181,13 @@ class TestsController < ApplicationController
 	end
 
 	get '/tests/:id/edit' do
+		if !logged_in?
+            flash[:message] = "Requires login and administrator privelages."
+            redirect '/login'
+        end
+        
 		if !current_user.is_admin
+			flash[:message] = "Requires adminstrator privelages."
 			redirect '/tests'
 		end
 		@test = Test.find(params[:id])

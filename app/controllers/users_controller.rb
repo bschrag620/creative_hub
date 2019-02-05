@@ -12,9 +12,12 @@ class UsersController < ApplicationController
 
 	get '/users/report' do
 		if !logged_in?
+			flash[:message] = "Requires login and administrator privelages."
 			redirect '/'
 		end
+
 		if !current_user.is_admin
+			flash[:message] = "Requires administrator privelages."
 			redirect '/'
 		end
 		current_users = User.all
@@ -78,8 +81,10 @@ class UsersController < ApplicationController
 
 	get '/users/:id' do
 		if !logged_in?
+			flash[:message] = "Requires login and administrator privelages."
 			redirect '/'
 		end
+
 		if current_user.id == params[:id] || current_user.is_admin
 			@user = User.find(params[:id])
 
@@ -90,7 +95,13 @@ class UsersController < ApplicationController
 	end
 
 	get '/users/:id/edit' do
+		if !logged_in?
+			flash[:message] = "Requires login and administrator privelages."
+			redirect '/'
+		end
+
 		if !current_user.is_admin
+			flash[:message] = "Requires administrator privelages."
 			redirect '/'
 		end
 		@user = User.find(params[:id])

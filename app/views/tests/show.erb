@@ -1,24 +1,26 @@
 <h2>Test: <%=@test.name%></h2>
-<form action="/tests/<%=@test.id%>" method="post">
-	<input type="hidden" name="_method" value="delete">
-	<input type="submit" value="Delete test">
-</form><a href="/tests/<%=@test.id%>/edit"><button>Edit test</button></a><hr>
-<h4>Questions</h4>
-<% @test.questions.each do |q| %>
-<%=q.text%> <br>
-Correct answers:
-<ul>
-	<% q.answers.each do |a| %>
-		<% if a.is_correct %>
-			<li><%=a.text%></li>
+<% if current_user.is_admin %>
+	<form action="/tests/<%=@test.id%>" method="post">
+		<input type="hidden" name="_method" value="delete">
+		<input type="submit" value="Delete test">
+	</form><a href="/tests/<%=@test.id%>/edit"><button>Edit test</button></a><hr>
+	<h4>Questions</h4>
+	<% @test.questions.each do |q| %>
+	<%=q.text%> <br>
+	Correct answers:
+	<ul>
+		<% q.answers.each do |a| %>
+			<% if a.is_correct %>
+				<li><%=a.text%></li>
+			<% end %>
 		<% end %>
-	<% end %>
 
-</ul><hr>
+	</ul><hr>
+	<% end %>
 <% end %>
 Used in certificates: <br>
 <ul>
 <% @test.certificates.each do |cert| %>
-	<a href="/certificates/<%=cert.id%>"><%=cert.name%></a>
+	<li><a href="/certificates/<%=cert.id%>"><%=cert.name%></a></li>
 <% end %>
 </ul>
