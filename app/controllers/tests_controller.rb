@@ -33,15 +33,19 @@ class TestsController < ApplicationController
 		flash[:message] = "Congratulations, you passed!"
 		certificates = Certificate.all
 		certificates.each do |cert|
-			requisites = true
-			cert.tests.each do |t|
-				if !current_user.tests.include?(t)
-					requisites = false
+			
+			# only do the following if the user isn't certified already in cert
+			if !current_user.certificates.include?(cert)
+				requisites = true
+				cert.tests.each do |t|
+					if !current_user.tests.include?(t)
+						requisites = false
+					end
 				end
-			end
-			if requisites
-				current_user.certificates << cert
-				flash[:message] = "#{flash[:message]} <br> #{cert.name} certificate has been awarded to you!"
+				if requisites
+					current_user.certificates << cert
+					flash[:message] = "#{flash[:message]} <br> #{cert.name} certificate has been awarded to you!"
+				end
 			end
 		end
 

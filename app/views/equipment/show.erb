@@ -15,7 +15,9 @@ Required certification:
 			<% end %>
 		<% end %>
 	</ul>
-<a href="/equipment/<%=@equip.id%>/edit"><button>Edit equipment</button></a>
+<% if current_user.is_admin %>
+	<a href="/equipment/<%=@equip.id%>/edit"><button>Edit equipment</button></a>
 		<form action="/equipment/<%=@equip.id%>" method="post">
 			<input type="hidden" name="_method" value="delete"><button>Delete equipment</button>
-		</form> <hr>
+		</form> <hr>	
+<% end %>
