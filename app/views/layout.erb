@@ -8,11 +8,12 @@
   	
     <div class="nav">
       <div align="left" class=left_nav>
-      		<a href="/tests">Tests</a>
+        <% if logged_in? %>
       		<a href="/certificates">Certificates</a>
           <a href="/equipment">Equipment</a>
-          <% if logged_in? %>
             <% if current_user.is_admin %>
+              | Admin options
+              <a href="/tests">Tests</a>
               <a href="/users">Users</a>
           <% end %>
       </div>

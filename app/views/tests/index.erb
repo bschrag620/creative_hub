@@ -3,11 +3,10 @@
 	<a href="/tests/new"><button>Create new test</button></a><hr>
 <% end %>
 <% @tests.each do |test| %>
-	<h3><a href="/tests/<%=test.id%>"><%=test.name%></a></h3><br>
-	Applies to certificates:
-	<ul>
-		<% test.certificates.each do |cert| %>
-			<li><a href="/certificates/<%=cert.id%>"><%=cert.name%></a></li>
-		<% end %>
-	</ul> <hr>
+	<a href="/tests/<%=test.id%>"><%=test.name%></a><br>
+	<a href="/tests/<%=test.id%>/edit"><button>Edit</button></a>
+	<form action="/tests/<%=test.id%>" method="post">
+		<input type="hidden" name="_method" value="delete">
+		<input type="submit" value="Delete">
+	</form><hr>
 <% end %>
