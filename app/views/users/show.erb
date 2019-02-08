@@ -1,7 +1,10 @@
 <h2><%=@user.full_name%>
+<a href="/users/<%=@user.id%>/edit">
 <% if current_user.is_admin %>
-	<a href="/users/<%=@user.id%>/edit"><button>Edit user</button></a></h2>
-<% end %>
+	<button>Edit user</button>
+<% else %>
+	<button>Edit profile</button>
+<% end %></h2></a>
 Phone number: <a href="tel: <%=@user.phone_number%>"> <%=@user.phone_number%></a> <br>
 Email: <a href="mailto: <%=@user.email%>"> <%=@user.email%></a><hr>
 <h3>Certifications</h3>
@@ -20,3 +23,4 @@ Email: <a href="mailto: <%=@user.email%>"> <%=@user.email%></a><hr>
 	<%="<li>Paid in full</li>" if @user.account_paid %> 
 	<%="<li>Not paid</li>" if !@user.account_paid %> 
 </ul><hr>
+

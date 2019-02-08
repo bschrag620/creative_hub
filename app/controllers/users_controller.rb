@@ -1,6 +1,12 @@
 class UsersController < ApplicationController
 	get '/users' do
+		if !logged_in?
+			flash[:message] = "Requires login and administrator privelages."
+			redirect '/'
+		end
+
 		if !current_user.is_admin
+			flash[:message] = "Requires administrator privelages."
 			redirect '/'
 		end
 
@@ -85,7 +91,7 @@ class UsersController < ApplicationController
 			redirect '/'
 		end
 
-		if current_user.id == params[:id] || current_user.is_admin
+		if current_user.id.to_s == params[:id] || current_user.is_admin
 			@user = User.find(params[:id])
 
 			erb :'/users/show'
@@ -95,18 +101,14 @@ class UsersController < ApplicationController
 	end
 
 	get '/users/:id/edit' do
-		if !logged_in?
+		if !logged_in? or current_user.id.to_s != params[:id]
 			flash[:message] = "Requires login and administrator privelages."
 			redirect '/'
 		end
 
-		if !current_user.is_admin
-			flash[:message] = "Requires administrator privelages."
-			redirect '/'
-		end
 		@user = User.find(params[:id])
 		@certificates = Certificate.all
-
+		
 		erb :'/users/edit'
 	end
 

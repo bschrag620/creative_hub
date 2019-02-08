@@ -71,17 +71,6 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  get '/profile' do
-    if !logged_in?
-      flash[:message] = "Requires login."
-      redirect '/login'
-    end 
-
-    @user = current_user
-
-    erb :'profile'
-  end
-
   patch '/profile' do
     @user = current_user
     if params[:user][:email] != @user.email

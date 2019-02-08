@@ -19,7 +19,7 @@
       </div>
       <div align="right" class=right_nav>  
           Hello, <%=current_user.first_name%> <%=current_user.last_name%>!
-          <a href="/profile">Profile</a>
+          <a href="/users/<%=current_user.id%>">Profile</a>
           <a href="/logout">Logout</a>
         <% else %>
           <a href="/login">Log In</a>
