@@ -95,6 +95,12 @@ class EquipmentController < ApplicationController
 
     	@user = current_user
     	@equip = Equipment.find(params[:id])
+
+        if !@equip.certificate
+            flash[:message] = "Equipment lacking certificate. Please contact admin."
+            redirect '/equipment'
+        end
+        
 		erb :'/equipment/use'
     end
 

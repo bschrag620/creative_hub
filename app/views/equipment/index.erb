@@ -2,27 +2,29 @@
 
 <% @equipments.each do |equipment| %>
 	<a href="/equipment/<%=equipment.id%>"><h3><%= equipment.name %></h3></a>
-	<% if current_user.is_certified(equipment.certificate.id) %>
-		<% if equipment.in_use %>
-				Equipment currently in use.
-		<% else %>
-				<a href="/equipments/<%=equipment.id%>/use"><button>Use equipment</button></a><br>
-		<% end %>
-	<% else %>
-		Required certification:
-		<ul>
-		<% if equipment.certificate %>
-			<li><%=equipment.certificate.name%>&nbsp&nbsp&nbsp<a href="/certificates/<%=equipment.certificate.id%>/apply"><button>Apply for certificate</button></a>
-				</li>
-		<% else %>
-			<% if current_user.is_admin %>
-				No certificate specified. Choose <a href="/equipment/<%=equipment.id%>/edit">edit</a> to fix.
+	<% if equipment.certificate %>
+		<% if current_user.is_certified(equipment.certificate.id) %>
+			<% if equipment.in_use %>
+					Equipment currently in use.
 			<% else %>
-				No certificate specified, notify admin to correct the issue.
+					<a href="/equipments/<%=equipment.id%>/use"><button>Use equipment</button></a><br>
+			<% end %>
+		<% else %>
+			Required certification:
+			<ul>	
+			<% if equipment.certificate %>
+				<li><%=equipment.certificate.name%>&nbsp&nbsp&nbsp<a href="/certificates/<%=equipment.certificate.id%>/apply"><button>Apply for certificate</button></a>
+					</li>
 			<% end %>
 		<% end %>
-		</ul>
+	<% else %>
+		<% if current_user.is_admin %>
+					No certificate specified. Choose <a href="/equipment/<%=equipment.id%>/edit">edit</a> to fix. <br>
+				<% else %>
+					No certificate specified, notify admin to correct the issue.
+				<% end %>
 	<% end %>
+			</ul>
 	<% if current_user.is_admin %>
 		<a href="/equipment/<%=equipment.id%>/edit"><button>Edit equipment</button></a>
 		<form action="/equipment/<%=equipment.id%>" method="post">
