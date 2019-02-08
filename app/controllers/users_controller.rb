@@ -108,17 +108,59 @@ class UsersController < ApplicationController
 
 		@user = User.find(params[:id])
 		@certificates = Certificate.all
-		
+
 		erb :'/users/edit'
 	end
 
 	patch '/users/:id' do
-		# check for certificate_ids array
-		if !params[:user].keys.include?("certificate_ids")
-			params[:user][:certificate_ids] = []
+		binding.pry
+		# if the user isn't admin, treat this as a profile update
+		if !current_user.is_admin
+			
+			# make sure the current user is the one being updated, if current_user isn't admin
+			if current_user.id.to_s != params[:id]
+				flash[:message] = "Can't update other users profile."
+
+				redirect "/users/#{current_user.id}"
+			else
+				@user = User.find(params[:id])
+			end
+			
+			# did the user update their email?
+			if params[:user][:email] != @user.email
+	      		
+	      		# if so, does it already exist?
+	      		if User.find_by(:email => params[:user][:email])
+	        		flash[:message] = "Email is already taken."
+	       			
+	       			# if yes, bail
+					redirect "/users/#{@user.id}"
+	      		end
+
+      		# rinse and repeat for updating username
+	    	elsif params[:user][:username] != @user.username
+	      		if User.find_by(:username => params[:user][:username])
+	        		flash[:message] = "Username is already taken."
+	        		
+					redirect "/users/#{@user.id}"
+	      		end
+	    	end
+
+			if @user.update(params[:user])
+	      		flash[:message] = "Profile updated."
+	    	else
+	      		flash[:message] = "Something went wrong. Profile not updated."
+	    	end
+
+    	# if this is an admin, treat it more like a change to their account status
+    	else
+			# check for certificate_ids array
+			if !params[:user].keys.include?("certificate_ids")
+				params[:user][:certificate_ids] = []
+			end
+			@user = User.find(params[:id])
+			@user.update(params[:user])
 		end
-		@user = User.find(params[:id])
-		@user.update(params[:user])
 
 		redirect "/users/#{@user.id}"
 	end
