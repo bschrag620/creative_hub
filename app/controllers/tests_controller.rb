@@ -42,7 +42,7 @@ class TestsController < ApplicationController
 						requisites = false
 					end
 				end
-				if requisites
+				if requisites && !current_user.certificates.include?(cert)
 					current_user.certificates << cert
 					flash[:message] = "#{flash[:message]} <br> #{cert.name} certificate has been awarded to you!"
 				end

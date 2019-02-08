@@ -60,8 +60,14 @@ class CertificatesController < ApplicationController
 	end
 
 	post '/certificates' do
-		new_cert = Certificate.find_or_create_by(params)
-		new_cert.equipment = Equipment.find_or_create_by(params[:name])
+
+		new_cert = Certificate.find_or_create_by(:name => params[:name])
+		new_equip = Equipment.find_or_create_by(:name => params[:name])
+		if !new_cert.equipment.include?(new_equip)
+			new_cert.equipment << new_equip
+		end
+		new_cert.save
+
 		redirect "/certificates"
 	end
 
