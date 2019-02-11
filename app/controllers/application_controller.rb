@@ -25,6 +25,7 @@ class ApplicationController < Sinatra::Base
   get '/logout' do
     session.clear
 
+    flash[:message] = "Goodbye."
     redirect '/'
   end
 
@@ -37,6 +38,7 @@ class ApplicationController < Sinatra::Base
 
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
+      flash[:message] = "Welcome back, #{user.first_name}"
       redirect '/'
     else
       redirect '/login'

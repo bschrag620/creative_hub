@@ -26,6 +26,7 @@ class CertificatesController < ApplicationController
 	end
 
 	get '/certificates/:id' do
+
 		if !logged_in?
             flash[:message] = "Requires login and administrator privelages."
             redirect '/login'
@@ -56,6 +57,7 @@ class CertificatesController < ApplicationController
 		@cert = Certificate.find(params[:id])
 		@cert.update(params[:certificate])
 
+		flash[:message] = "Certificate updated."
 		redirect "/certificates/#{@cert.id}"
 	end
 
@@ -66,14 +68,18 @@ class CertificatesController < ApplicationController
 		if !new_cert.equipment.include?(new_equip)
 			new_cert.equipment << new_equip
 		end
-		new_cert.save
+		if new_cert.save
+			flash[:message] = "New cerfiticate created: #{new_cert.name}"
+		else
+			flash[:message] = "Oops, something went wrong."
+		end
 
-		redirect "/certificates"
+		redirect "/certificates/#{new_cert.id}"
 	end
 
 	delete '/certificates/:id' do
 		@certificate = Certificate.find(params[:id])
-
+		flash[:message]  = "#{@certificate.name} certificate has been deleted."
 		@certificate.destroy
 		redirect '/certificates'
 	end

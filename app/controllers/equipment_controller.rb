@@ -17,9 +17,13 @@ class EquipmentController < ApplicationController
  		end
 
  		equip.certificate = Certificate.find_or_create_by(:name => params[:certificate_name])
-        equip.save
+        if equip.save
+            flash[:message] = "New equipment added: #{equip.name}"
+        else
+            flash[:message] = "Something went wrong."
+        end
         
- 		redirect '/equipment'
+ 		redirect "/equipment/#{equip.id}"
  	end
 
  	get '/equipment/new' do
@@ -65,7 +69,8 @@ class EquipmentController < ApplicationController
     	
     	equip = Equipment.find(params[:id])
     	equip.update(:name => params[:name], :certificate => Certificate.find(params[:certificate_id]))
-    
+        flash[:message] = "Equipment updated."
+
 		redirect "/equipment/#{equip.id}"
     end
 
@@ -74,7 +79,10 @@ class EquipmentController < ApplicationController
 			redirect '/'
 	    end
 
-	    Equipment.find(params[:id]).delete
+	    equip = Equipment.find(params[:id])
+        flash[:message] = "Equipment deleted: #{equip.name}."
+        equip.delete
+        
 	    redirect '/equipment'
     end
 

@@ -14,7 +14,7 @@
 			<b>edit existing answers: check if correct</b><br>
 			<% q.answers.each do |a| %>
 				<input type="text" name="questions[<%=q.id%>][answers][<%=a.id%>][text]" value="<%=a.text%>">
-				<input type="checkbox" name="questions[<%=q.id%>][answers][<%=a.id%>][is_correct]" <%="checked" if a.is_correct%>>
+				<input type="checkbox" name="questions[<%=q.id%>][answers][<%=a.id%>][is_correct]" <%="checked" if a.is_correct%>>Is correct answer?
 				<br>
 			<% end %> <br>
 			<b>or add new answers:</b><br>

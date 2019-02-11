@@ -53,7 +53,9 @@ class TestsController < ApplicationController
 	end
 
 	get '/tests/failed' do
-		erb :'/tests/failed'
+		flash[:message] = "Test failed. Please try again later."
+
+		redirect '/certificates'
 	end
 
 	get '/tests/:id/take' do
@@ -102,6 +104,7 @@ class TestsController < ApplicationController
 		end
 		new_test.save
 		
+		flash[:message] = "New test has been created: #{new_test.name}"
 		redirect '/tests'
 	end
 
@@ -180,6 +183,7 @@ class TestsController < ApplicationController
 				q.update(:text => q_values[:text])
 			end
 		end
+		flash[:message] = "#{current_test.name} has been successfully updated."
 
 		redirect "/tests/#{params[:id]}"
 	end
@@ -219,7 +223,18 @@ class TestsController < ApplicationController
 	end
 
 	delete '/tests/:id' do
+		if !logged_in?
+            flash[:message] = "Requires login and administrator privelages."
+            redirect '/login'
+        end
+        
+		if !current_user.is_admin
+			flash[:message] = "Requires adminstrator privelages."
+			redirect '/tests'
+		end
+
 		@test = Test.find(params[:id])
+		flash[:message] = "Test deleted: #{@test.name}"
 		@test.destroy
 
 		redirect '/tests'
